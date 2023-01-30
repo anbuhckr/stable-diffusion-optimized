@@ -32,14 +32,24 @@ def load_model_from_config(ckpt, verbose=False):
 
 
 config = "optimizedSD/v1-inference.yaml"
-DEFAULT_CKPT = "models/ldm/stable-diffusion-v1/model.ckpt"
+DEFAULT_CKPT = "models/model.ckpt"
 
 parser = argparse.ArgumentParser()
 
 parser.add_argument(
-    "--prompt", type=str, nargs="?", default="a painting of a virus monster playing guitar", help="the prompt to render"
+    "--prompt",
+    type=str,
+    nargs="?",
+    default="a painting of a virus monster playing guitar",
+    help="the prompt to render"
 )
-parser.add_argument("--outdir", type=str, nargs="?", help="dir to write results to", default="outputs/txt2img-samples")
+parser.add_argument(
+    "--outdir",
+    type=str,
+    nargs="?",
+    help="dir to write results to",
+    default="outputs/txt2img-samples"
+)
 parser.add_argument(
     "--skip_grid",
     action="store_true",
@@ -56,7 +66,6 @@ parser.add_argument(
     default=50,
     help="number of ddim sampling steps",
 )
-
 parser.add_argument(
     "--fixed_code",
     action="store_true",
@@ -71,7 +80,7 @@ parser.add_argument(
 parser.add_argument(
     "--n_iter",
     type=int,
-    default=1,
+    default=2,
     help="sample this often",
 )
 parser.add_argument(
@@ -101,7 +110,7 @@ parser.add_argument(
 parser.add_argument(
     "--n_samples",
     type=int,
-    default=5,
+    default=3,
     help="how many samples to produce for each given prompt. A.k.a. batch size",
 )
 parser.add_argument(
@@ -128,10 +137,23 @@ parser.add_argument(
     help="if specified, load prompts from this file",
 )
 parser.add_argument(
+    "--ckpt",
+    type=str,
+    help="path to checkpoint of model",
+    default=DEFAULT_CKPT,
+)
+parser.add_argument(
     "--seed",
     type=int,
-    default=None,
+    default=42,
     help="the seed (for reproducible sampling)",
+)
+parser.add_argument(
+    "--precision", 
+    type=str,
+    help="evaluate at this precision",
+    choices=["full", "autocast"],
+    default="autocast"
 )
 parser.add_argument(
     "--unet_bs",
@@ -143,13 +165,6 @@ parser.add_argument(
     "--turbo",
     action="store_true",
     help="Reduces inference time on the expense of 1GB VRAM",
-)
-parser.add_argument(
-    "--precision", 
-    type=str,
-    help="evaluate at this precision",
-    choices=["full", "autocast"],
-    default="autocast"
 )
 parser.add_argument(
     "--format",
@@ -164,12 +179,6 @@ parser.add_argument(
     help="sampler",
     choices=["ddim", "plms","heun", "euler", "euler_a", "dpm2", "dpm2_a", "lms"],
     default="plms",
-)
-parser.add_argument(
-    "--ckpt",
-    type=str,
-    help="path to checkpoint of model",
-    default=DEFAULT_CKPT,
 )
 opt = parser.parse_args()
 
