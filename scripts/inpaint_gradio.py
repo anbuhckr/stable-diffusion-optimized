@@ -264,7 +264,7 @@ def generate(
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='txt2img using gradio')
     parser.add_argument('--config_path', default="optimizedSD/v1-inference.yaml", type=str, help='config path')
-    parser.add_argument('--ckpt_path', default="models/ldm/stable-diffusion-v1/model.ckpt", type=str, help='ckpt path')
+    parser.add_argument('--ckpt_path', default="models/model.ckpt", type=str, help='ckpt path')
     args = parser.parse_args()
     config = args.config_path
     ckpt = args.ckpt_path
