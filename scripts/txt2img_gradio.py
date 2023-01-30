@@ -6,7 +6,6 @@ from einops import rearrange
 import os, re
 from PIL import Image
 import torch
-import pandas as pd
 import numpy as np
 from random import randint
 from omegaconf import OmegaConf
@@ -42,7 +41,7 @@ def load_model_from_config(ckpt, verbose=False):
     return sd
 
 config = "optimizedSD/v1-inference.yaml"
-ckpt = "models/ldm/stable-diffusion-v1/model.ckpt"
+ckpt = "models/model.ckpt"
 sd = load_model_from_config(f"{ckpt}")
 li, lo = [], []
 for key, v_ in sd.items():
